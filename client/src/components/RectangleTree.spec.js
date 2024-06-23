@@ -13,6 +13,14 @@ describe("RectangleTree", () => {
             }
         }
     };
+    it("should test the pop-over modal is exist or not", async () => {
+        // default showModal is false
+        expect(wrapper.find('#pop-hover').exists()).toBe(false);
+        wrapper.vm.showModal = true;
+        await nextTick();
+        expect(wrapper.find('#pop-hover').exists()).toBe(true);
+    });
+
     it("should test the selectedNode when clicked on node", async () => {
         const spyEvent = jest.spyOn(wrapper.vm, 'selectedNode');
         await wrapper.vm.selectedNode(event, data);
@@ -24,14 +32,6 @@ describe("RectangleTree", () => {
         });
     });
 
-    it("should test the pop-over modal is exist or not", async () => {
-        // default showModal is false
-        expect(wrapper.find('#pop-hover').exists()).toBe(false);
-        wrapper.vm.showModal = true;
-        await nextTick();
-        expect(wrapper.find('#pop-hover').exists()).toBe(true);
-    });
-
     it("should test the pop-modal text", async () => {
         await wrapper.vm.selectedNode(event, data);
         expect(wrapper.find('#pop-up-modal').exists()).toBe(true);
@@ -41,6 +41,8 @@ describe("RectangleTree", () => {
     
     it("should test the close modal event", async () => {
         const spyCloseModal = jest.spyOn(wrapper.vm, 'closeModal');
+        wrapper.vm.showModal = false;
+        await nextTick();
         expect(wrapper.find('#close').exists()).toBe(false);
         wrapper.vm.showModal = true;
         await nextTick();
